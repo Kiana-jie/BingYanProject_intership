@@ -3,8 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PrincessTower : MonoBehaviour
+public class Tower : MonoBehaviour
 {
+    public enum TowerType
+    {
+        PrincessTower,
+        KingTower
+    }
+    public TowerType type;
     public int health;
     public float attackRange;//攻击范围
     public float attackRate;//攻击频率
@@ -23,7 +29,7 @@ public class PrincessTower : MonoBehaviour
 
     private void AttackNearbyUnit()
     {
-        //Debug.Log("Start!");
+        
         //获取范围内的Target碰撞体
         Collider2D[] hitColliders = Physics2D.OverlapCircleAll(transform.position,attackRange,targetLayerMask);
         //if (hitColliders.Length <= 0) return;
@@ -33,7 +39,7 @@ public class PrincessTower : MonoBehaviour
 
 
         
-        Debug.Log(hitColliders.Length);
+        //Debug.Log(hitColliders.Length);
         
         foreach (Collider2D collider in hitColliders)
         {
@@ -41,7 +47,7 @@ public class PrincessTower : MonoBehaviour
             Unit unit = collider.GetComponent<Unit>();
             if (unit != null)
             {
-                Debug.Log("Enemy Detected!");
+                //Debug.Log("Enemy Detected!");
                 //切换目标为最近的敌人
                 float distance = Vector2.Distance(transform.position, unit.transform.position);
                 if (distance < minDistance)
@@ -55,14 +61,14 @@ public class PrincessTower : MonoBehaviour
 
         if (priorityTarget != null && Time.time - lastAttackTime >= attackRate) 
         {
-            priorityTarget.TakeDammage(damage);
+            priorityTarget.TakeDamage(damage);
             lastAttackTime = Time.time;
         }
 
         
         
     }
-    public void TakeDammage(int attackForce)
+    public void TakeDamage(int attackForce)
     {
         health -= attackForce;
         if(health <= 0)
