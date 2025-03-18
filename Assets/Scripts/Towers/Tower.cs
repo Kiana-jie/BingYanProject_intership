@@ -10,6 +10,7 @@ public class Tower : MonoBehaviour
         PrincessTower,
         KingTower
     }
+    public Faction faction;
     public TowerType type;
     public int health;
     public float attackRange;//攻击范围
@@ -45,7 +46,7 @@ public class Tower : MonoBehaviour
         {
             //Debug.Log("Enemy Detected!");
             Unit unit = collider.GetComponent<Unit>();
-            if (unit != null)
+            if (unit != null&&unit.faction != faction)
             {
                 //Debug.Log("Enemy Detected!");
                 //切换目标为最近的敌人

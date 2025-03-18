@@ -5,12 +5,14 @@ using UnityEngine;
 
 public class Unit : MonoBehaviour
 {
+
     public enum UnitType//兵种
     {
         meleeUnit,//近战
         rangedUnit//远程
 
     }
+    public Faction faction;
     public UnitType unitType;
     public int health;
     public float speed;
@@ -48,7 +50,7 @@ public class Unit : MonoBehaviour
             //Debug.Log("Enemy Detected!");
             Unit unit = collider.GetComponent<Unit>();//需要剔除自己
             
-            if (unit != null && unit != this)
+            if (unit != null && unit.faction != faction)
             {
                 Debug.Log("Enemy Detected!");
                 //切换目标为最近的敌人
@@ -75,16 +77,20 @@ public class Unit : MonoBehaviour
             Debug.Log("Start!");
             Tower tower = FindClosestTower();
             //寻路算法移动至最近的塔
-            float distance = Vector2.Distance(transform.position,tower.transform.position);
-            if (distance > attackRange) 
+            if(tower != null) 
             {
-                MoveTowards(tower.transform.position);
+                float distance = Vector2.Distance(transform.position, tower.transform.position);
+                if (distance > attackRange)
+                {
+                    MoveTowards(tower.transform.position);
+                }
+                else if (Time.time - lastAttackTime >= attackRate)
+                {
+                    tower.TakeDamage(damage);
+                    lastAttackTime = Time.time;
+                }
             }
-            else if (Time.time - lastAttackTime >= attackRate)
-            {
-                tower.TakeDamage(damage);
-                lastAttackTime = Time.time;
-            }
+            
 
 
         }
@@ -93,19 +99,23 @@ public class Unit : MonoBehaviour
     private Tower FindClosestTower()
     {
         Tower[] towers = FindObjectsOfType<Tower>();
-        if (towers != null) Debug.Log("find tower!");
-        Debug.Log(towers.Length);
+        //if (towers != null) Debug.Log("find tower!");
+        //Debug.Log(towers.Length);
         Tower closestTower = null;
         float minDistance = float.MaxValue;
 
         foreach (Tower tower in towers)
         {
-            float distance = Vector2.Distance(transform.position, tower.transform.position);
-            if (distance < minDistance)
+            if(tower.faction!=faction) 
             {
-                minDistance = distance;
-                closestTower = tower;
+                float distance = Vector2.Distance(transform.position, tower.transform.position);
+                if (distance < minDistance)
+                {
+                    minDistance = distance;
+                    closestTower = tower;
+                }
             }
+            
         }
         Debug.Log("Find Tower!");
         return closestTower;
