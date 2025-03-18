@@ -21,10 +21,15 @@ public class Unit : MonoBehaviour
     public int damage;
     public float attackRate;
     public LayerMask targetLayerMask;
+//private PolygonCollider2D movementArea;
 
     private float lastAttackTime;
     // Start is called before the first frame update
-
+   /* private void Start()
+    {
+        movementArea = FindObjectOfType<PolygonCollider2D>();
+        if (movementArea != null ) { Debug.Log("Find moveArea!"); }
+    }*/
 
     // Update is called once per frame
     void Update()
@@ -74,11 +79,12 @@ public class Unit : MonoBehaviour
         }
         if (nearestUnit == null)
         {
-            Debug.Log("Start!");
+           
             Tower tower = FindClosestTower();
             //寻路算法移动至最近的塔
             if(tower != null) 
             {
+                //Vector3 moveTarget = GetClosestArea(tower.transform.position);
                 float distance = Vector2.Distance(transform.position, tower.transform.position);
                 if (distance > attackRange)
                 {
@@ -123,8 +129,23 @@ public class Unit : MonoBehaviour
 
     void MoveTowards(Vector3 targetPos)
     {
+        //Vector3 allowedPosition = GetClosestArea(targetPos);
         transform.position = Vector3.MoveTowards(transform.position,targetPos,Time.deltaTime*speed);
     }
+
+    /*private Vector3 GetClosestArea(Vector3 targetPos)
+    {
+        if (movementArea == null) return targetPos;
+
+        if (movementArea.OverlapPoint(targetPos))
+        {
+            return targetPos; // 目标点在合法区域，直接移动
+        }
+
+        // 找最近的合法点
+        Vector2 closestPoint = movementArea.ClosestPoint(targetPos);
+        return closestPoint;
+    }*/
 
     public void TakeDamage(int damageCount)
     {
