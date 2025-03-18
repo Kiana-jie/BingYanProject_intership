@@ -75,7 +75,7 @@ public class Tower : MonoBehaviour
         if(health <= 0)
         {
             Destroy(gameObject);
-            Debug.Log("Tower Destoryed!");
+            //Debug.Log("Tower Destoryed!");
         }
     }
 

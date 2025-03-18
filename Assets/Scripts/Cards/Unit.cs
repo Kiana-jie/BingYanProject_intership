@@ -57,7 +57,7 @@ public class Unit : MonoBehaviour
             
             if (unit != null && unit.faction != faction)
             {
-                Debug.Log("Enemy Detected!");
+                //Debug.Log("Enemy Detected!");
                 //切换目标为最近的敌人
                 float distance = Vector2.Distance(transform.position, unit.transform.position);
                 if (distance < minDistance)
@@ -123,7 +123,7 @@ public class Unit : MonoBehaviour
             }
             
         }
-        Debug.Log("Find Tower!");
+        //Debug.Log("Find Tower!");
         return closestTower;
     }
 
@@ -152,7 +152,7 @@ public class Unit : MonoBehaviour
         health -= damageCount;
         if(health <= 0)
         {
-            Debug.Log("Unit Destoryed!");
+            //Debug.Log("Unit Destoryed!");
             Destroy(gameObject);
         }
     }

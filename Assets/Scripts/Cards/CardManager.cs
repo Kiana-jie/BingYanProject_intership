@@ -46,6 +46,7 @@ public class CardManager : MonoBehaviour
 
     public void PlayCard(int cardIndex)
     {
+        Debug.Log("PlayCard called");
         if (cardIndex < 0 || cardIndex >= deck.Count)
             return;
 
