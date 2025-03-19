@@ -58,7 +58,8 @@ public class CardManager : MonoBehaviour
             curWater -= selectedCard.cost;
             if(selectedCard.isMagicCard == false)
             {
-                Instantiate(selectedCard.unitPrefab, pos, Quaternion.identity);
+                 Instantiate(selectedCard.unitPrefab, pos, Quaternion.identity);
+                
             }
             else
             {

@@ -93,6 +93,7 @@ public class Tower : MonoBehaviour
         health -= attackForce;
         if(health <= 0)
         {
+            if(kingTower != null)
             kingTower.actived = true;
             Destroy(gameObject);
             //Debug.Log("Tower Destoryed!");

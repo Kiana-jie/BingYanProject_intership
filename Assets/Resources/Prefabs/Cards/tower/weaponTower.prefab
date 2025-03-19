@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d5dff12472d9564c818cde24d5e2c2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  faction: 0
+  faction: 1
   type: 3
   health: 50
   attackRange: 3
@@ -58,6 +58,7 @@ MonoBehaviour:
   targetLayerMask:
     serializedVersion: 2
     m_Bits: 128
+  kingTower: {fileID: 0}
 --- !u!212 &5548904631890777217
 SpriteRenderer:
   m_ObjectHideFlags: 0

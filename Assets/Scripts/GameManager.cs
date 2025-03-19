@@ -9,32 +9,41 @@ public class GameManager : MonoBehaviour
     public float time = 120f;//总时间
     public Tower[] pTowers;
     public Tower[] eTowers;
-
+    public Transform[] enemySpawnPoint;
     private float leftTime;
     private float tc = 0; //1s计时器
     private int pHealth;
     private int eHealth;    
-
+    public CardManager cardManager;
     // Start is called before the first frame update
     void Start()
     {
         pHealth = 0;
         foreach(var t in pTowers)
         {
-            if(t.type == Tower.TowerType.KingTower)
-            {
-
-            }
             pHealth += t.health;
         } 
         eHealth = pHealth;
         leftTime = time;
-        
+
+        StartCoroutine(EnemyAI());
+
+    }
+
+    IEnumerator EnemyAI()
+    {
+        while(true)
+        {
+            yield return new WaitForSeconds(UnityEngine.Random.Range(2f,4f));
+            cardManager.PlayCard(UnityEngine.Random.Range(0, cardManager.deck.Count-1), enemySpawnPoint[UnityEngine.Random.Range(0, 2)].position, eTowers[2].transform);
+
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
+        
         tc += Time.deltaTime;
         if(tc >= 1.0f)
         {
