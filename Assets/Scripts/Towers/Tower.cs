@@ -8,7 +8,9 @@ public class Tower : MonoBehaviour
     public enum TowerType
     {
         PrincessTower,
-        KingTower
+        KingTower,
+        ProduceTower,
+        WeaponTower
     }
     public Faction faction;
     public TowerType type;
@@ -16,6 +18,8 @@ public class Tower : MonoBehaviour
     public float attackRange;//¹¥»÷·¶Î§
     public float attackRate;//¹¥»÷ÆµÂÊ
     public int damage;
+    public GameObject projectilePrefab;
+    public Transform firePoint;
     public LayerMask targetLayerMask;
 
     private float lastAttackTime;
@@ -28,7 +32,7 @@ public class Tower : MonoBehaviour
         AttackNearbyUnit();
     }
 
-    private void AttackNearbyUnit()
+    public void AttackNearbyUnit()
     {
         
         //»ñÈ¡·¶Î§ÄÚµÄTargetÅö×²Ìå
@@ -40,11 +44,11 @@ public class Tower : MonoBehaviour
 
 
         
-        //Debug.Log(hitColliders.Length);
+         Debug.Log(hitColliders.Length);
         
         foreach (Collider2D collider in hitColliders)
         {
-            //Debug.Log("Enemy Detected!");
+            Debug.Log("Enemy Detected!");
             Unit unit = collider.GetComponent<Unit>();
             if (unit != null&&unit.faction != faction)
             {
@@ -62,12 +66,26 @@ public class Tower : MonoBehaviour
 
         if (priorityTarget != null && Time.time - lastAttackTime >= attackRate) 
         {
-            priorityTarget.TakeDamage(damage);
+
+            ShootProjectile(priorityTarget);
             lastAttackTime = Time.time;
         }
 
         
         
+    }
+
+    public void ShootProjectile(Unit target)
+    {
+        if (projectilePrefab != null && firePoint != null)
+        {
+            GameObject projectile = Instantiate(projectilePrefab, firePoint.position, Quaternion.identity);
+            Projectile proj = projectile.GetComponent<Projectile>();
+            if (proj != null)
+            {
+                proj.SetTarget(target, damage);
+            }
+        }
     }
     public void TakeDamage(int attackForce)
     {
@@ -79,7 +97,7 @@ public class Tower : MonoBehaviour
         }
     }
 
-    private void OnDrawGizmosSelected()
+    public void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, attackRange);

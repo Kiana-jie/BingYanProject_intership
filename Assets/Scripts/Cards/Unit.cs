@@ -25,15 +25,19 @@ public class Unit : MonoBehaviour
 
     private float lastAttackTime;
     // Start is called before the first frame update
-   /* private void Start()
+    /* private void Start()
+     {
+         movementArea = FindObjectOfType<PolygonCollider2D>();
+         if (movementArea != null ) { Debug.Log("Find moveArea!"); }
+     }*/
+    private void Start()
     {
-        movementArea = FindObjectOfType<PolygonCollider2D>();
-        if (movementArea != null ) { Debug.Log("Find moveArea!"); }
-    }*/
 
+    }
     // Update is called once per frame
     void Update()
     {
+        transform.rotation = Quaternion.identity;
         AttackNearestTarget();
         
 

@@ -14,9 +14,9 @@ public class Card
 public class CardManager : MonoBehaviour
 {
     public List<Card> deck;
-    public Transform point;
+    //public Transform point;
 
-    private int curWater = 5;
+    public int curWater = 5;
     private int maxWater = 10;
     public float waterspeed = 1f;
     private float gameTime;
@@ -44,7 +44,7 @@ public class CardManager : MonoBehaviour
         }
     }
 
-    public void PlayCard(int cardIndex)
+    public void PlayCard(int cardIndex,Vector3 pos)
     {
         Debug.Log("PlayCard called");
         if (cardIndex < 0 || cardIndex >= deck.Count)
@@ -55,7 +55,8 @@ public class CardManager : MonoBehaviour
         if (curWater >= selectedCard.cost)
         {
             curWater -= selectedCard.cost;
-            Instantiate(selectedCard.unitPrefab, point.position, Quaternion.identity);
+            
+            Debug.Log(Instantiate(selectedCard.unitPrefab, pos, Quaternion.identity).transform.position);
         }
     }
 
@@ -63,4 +64,6 @@ public class CardManager : MonoBehaviour
     {
         return curWater;
     }
+
+    
 }
