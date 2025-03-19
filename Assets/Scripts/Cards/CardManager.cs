@@ -10,6 +10,7 @@ public class Card
     public string name;
     public string description;
     public GameObject unitPrefab;
+    public bool isMagicCard;
 }
 public class CardManager : MonoBehaviour
 {
@@ -44,7 +45,7 @@ public class CardManager : MonoBehaviour
         }
     }
 
-    public void PlayCard(int cardIndex,Vector3 pos)
+    public void PlayCard(int cardIndex,Vector3 pos,Transform fireTransform)
     {
         Debug.Log("PlayCard called");
         if (cardIndex < 0 || cardIndex >= deck.Count)
@@ -55,8 +56,19 @@ public class CardManager : MonoBehaviour
         if (curWater >= selectedCard.cost)
         {
             curWater -= selectedCard.cost;
-            
-            Debug.Log(Instantiate(selectedCard.unitPrefab, pos, Quaternion.identity).transform.position);
+            if(selectedCard.isMagicCard == false)
+            {
+                Instantiate(selectedCard.unitPrefab, pos, Quaternion.identity);
+            }
+            else
+            {
+                GameObject magicEffect = Instantiate(selectedCard.unitPrefab, fireTransform.position, Quaternion.identity);
+                MagicEffect magicEffectScript = magicEffect.GetComponent<MagicEffect>();
+                if (magicEffectScript != null)
+                {
+                    magicEffectScript.targetPosition = pos;
+                }
+            }
         }
     }
 

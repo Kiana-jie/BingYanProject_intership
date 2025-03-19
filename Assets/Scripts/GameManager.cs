@@ -21,6 +21,10 @@ public class GameManager : MonoBehaviour
         pHealth = 0;
         foreach(var t in pTowers)
         {
+            if(t.type == Tower.TowerType.KingTower)
+            {
+
+            }
             pHealth += t.health;
         } 
         eHealth = pHealth;

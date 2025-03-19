@@ -22,10 +22,11 @@ public class Tower : MonoBehaviour
     public Transform firePoint;
     public LayerMask targetLayerMask;
 
+    public KingTower kingTower;
     private float lastAttackTime;
     // Start is called before the first frame update
-    
 
+    
     // Update is called once per frame
     void Update()
     {
@@ -92,6 +93,7 @@ public class Tower : MonoBehaviour
         health -= attackForce;
         if(health <= 0)
         {
+            kingTower.actived = true;
             Destroy(gameObject);
             //Debug.Log("Tower Destoryed!");
         }
