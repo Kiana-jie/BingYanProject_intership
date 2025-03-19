@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Unit : MonoBehaviour
 {
@@ -14,13 +15,15 @@ public class Unit : MonoBehaviour
     }
     public Faction faction;
     public UnitType unitType;
-    public int health;
+    public int maxHealth;
+    private int curHealth;
     public float speed;
     public float searchRange;//Ë÷µÐ·¶Î§
     public float attackRange;//¹¥»÷·¶Î§
     public int damage;
     public float attackRate;
     public LayerMask targetLayerMask;
+    public Image healthBar;
 //private PolygonCollider2D movementArea;
 
     private float lastAttackTime;
@@ -32,7 +35,8 @@ public class Unit : MonoBehaviour
      }*/
     private void Start()
     {
-
+        curHealth = maxHealth;
+        UpdateHealthUI();
     }
     // Update is called once per frame
     void Update()
@@ -153,11 +157,21 @@ public class Unit : MonoBehaviour
 
     public void TakeDamage(int damageCount)
     {
-        health -= damageCount;
-        if(health <= 0)
+        curHealth -= damageCount;
+        UpdateHealthUI();
+        if(curHealth <= 0)
         {
+
             //Debug.Log("Unit Destoryed!");
             Destroy(gameObject);
+        }
+    }
+
+    void UpdateHealthUI()
+    {
+        if (healthBar != null)
+        {
+            healthBar.fillAmount = (float)curHealth / maxHealth;
         }
     }
     private void OnDrawGizmosSelected()

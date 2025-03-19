@@ -7,9 +7,9 @@ public class MagicEffect : MonoBehaviour
 {
     public Faction faction;
     // Start is called before the first frame update
-    public float speed = 10f;
-    public float damageRadius = 2f;
-    public int damage = 20;
+    public float speed;
+    public float damageRadius;
+    public int damage;
     public LayerMask enemyLayer;
     public Vector3 firePos;
     public Vector3 targetPosition;
@@ -34,7 +34,7 @@ public class MagicEffect : MonoBehaviour
             
         }
         ApplyDamage();
-        //Destroy(gameObject);
+        Destroy(gameObject);
     }
 
     private void ApplyDamage()

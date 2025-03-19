@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Tower : MonoBehaviour
 {
@@ -14,19 +15,26 @@ public class Tower : MonoBehaviour
     }
     public Faction faction;
     public TowerType type;
-    public int health;
+    public int maxHealth;
+    public int curHealth;
     public float attackRange;//¹¥»÷·¶Î§
     public float attackRate;//¹¥»÷ÆµÂÊ
     public int damage;
     public GameObject projectilePrefab;
     public Transform firePoint;
     public LayerMask targetLayerMask;
-
+    private GameManager gameManager;
     public KingTower kingTower;
+    public Image healthBar;
     private float lastAttackTime;
     // Start is called before the first frame update
+    private void Start()
+    {
+        curHealth = maxHealth;
+        gameManager = FindObjectOfType<GameManager>();
+        UpdateHealthUI();
+    }
 
-    
     // Update is called once per frame
     void Update()
     {
@@ -45,11 +53,11 @@ public class Tower : MonoBehaviour
 
 
         
-         Debug.Log(hitColliders.Length);
+         
         
         foreach (Collider2D collider in hitColliders)
         {
-            Debug.Log("Enemy Detected!");
+            //Debug.Log("Enemy Detected!");
             Unit unit = collider.GetComponent<Unit>();
             if (unit != null&&unit.faction != faction)
             {
@@ -90,13 +98,23 @@ public class Tower : MonoBehaviour
     }
     public void TakeDamage(int attackForce)
     {
-        health -= attackForce;
-        if(health <= 0)
+        curHealth -= attackForce;
+        UpdateHealthUI();
+        if(curHealth <= 0)
         {
             if(kingTower != null)
             kingTower.actived = true;
+            //if(type==TowerType.KingTower) { gameManager.ClearHealth(faction); /*gameManager.EndGame();*/ }
             Destroy(gameObject);
             //Debug.Log("Tower Destoryed!");
+        }
+    }
+
+    void UpdateHealthUI()
+    {
+        if (healthBar != null)
+        {
+            healthBar.fillAmount = (float)curHealth / maxHealth;
         }
     }
 

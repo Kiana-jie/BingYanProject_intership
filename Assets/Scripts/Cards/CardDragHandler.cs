@@ -20,7 +20,7 @@ public class CardDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
     {
         //问题定位
         transform.position = Input.mousePosition;
-        Debug.Log(transform.position);
+        //Debug.Log(transform.position);
         
     }
 

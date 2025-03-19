@@ -7,6 +7,7 @@ public class WeaponTower : Tower
 {
     private void Start()
     {
+        curHealth = maxHealth;
         StartCoroutine(DieDown());
     }
 
